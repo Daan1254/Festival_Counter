@@ -43,12 +43,14 @@ void buttonEnterHandler(int BUTTON_PIN, int LED_PIN) {
 
     if (buttonState == LOW) {
         if (count >= maxVisitors) {
-            for (int i = 0; i < 3; i++)
+            int loopItterations = 0;
+            while (loopItterations < 3) 
             {
                 digitalWrite(PIN_LED_RED, HIGH);
                 delay(250);
                 digitalWrite(PIN_LED_RED, LOW);
                 delay(250);
+                loopItterations++;
             }
         
             Serial.println("Maximum visitors reached");
