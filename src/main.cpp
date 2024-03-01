@@ -12,6 +12,7 @@ int currentOrderIndex = 2;
 
 int buttonState_1 = 0; // Keep track of the button 1 state.
 int buttonState_2 = 0; // Keep track of the button 2 state.
+int maxVisitors = 10;
 int count = 0;
 byte prevButtonOneState = HIGH;
 byte prevButtonTwoState = HIGH;
@@ -34,11 +35,25 @@ void toggleLED() {
 void buttonEnterHandler(int BUTTON_PIN, int LED_PIN) {
     unsigned long currentMillis = millis();
 
+    
+
     const int buttonState = digitalRead(BUTTON_PIN);
     previousMillis = currentMillis;
     if (buttonState == prevButtonOneState) return;
 
     if (buttonState == LOW) {
+        if (count >= maxVisitors) {
+            for (int i = 0; i < 3; i++)
+            {
+                digitalWrite(PIN_LED_RED, HIGH);
+                delay(250);
+                digitalWrite(PIN_LED_RED, LOW);
+                delay(250);
+            }
+        
+            Serial.println("Maximum visitors reached");
+            return;
+        }
         toggleLED();
         count++;
         Serial.println("Total Festival Visitors: "  + String(count));
